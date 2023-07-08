@@ -1,9 +1,19 @@
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  // await Firebase.initializeApp();
+
+  runApp(const MyApp());
+  // runApp(const RCDivider());
+  // runApp(const ExpandedContainers());
+  // runApp(const Gestures());
+}
 
 // Stream<String> getName() {
-//   return Stream.periodic(const Duration(seconds: 1), (value) { return 'Foo'; });
+//   return Stream.periodi(const Duration(seconds: 1), (value) { return 'Foo'
+//   ; });
 // }
 
 Future<int> futureMultiply(int a) {
@@ -25,12 +35,6 @@ void test() async {
   final pair = Pair('foo', 'bar');
 }
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(const MyApp());
-}
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -38,7 +42,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     test();
-    DatabaseReference ref = FirebaseDatabase.instance.ref("testing");
+    // DatabaseReference ref = FirebaseDatabase.instance.ref("testing");
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
@@ -65,25 +69,26 @@ class MyApp extends StatelessWidget {
               child: const Text('TextButton'),
             ),
             const Icon(Icons.add, size: 34),
-            Column(
+            const Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const <Widget>[
+              children: <Widget>[
                 Text("VegElement"),
                 Text("Non-vegElement"),
               ],
             ),
-            Row(
+            const Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const <Widget>[
+              children: <Widget>[
                 Text("VegElement"),
                 Text("Non-vegElement"),
               ],
             ),
-            Padding(
-              padding: const EdgeInsets.all(30),
+            GestureDetector(
+              onTap: () => print("Tap"),
+              onDoubleTap: () => print("Double Tap"),
               child: Image.asset('assets/images/wallpaper.jpg'),
             ),
-            const Car(title: "Hello")
+            Car(title: "Hello"),
           ])
 
           // Timestamp List
@@ -140,9 +145,9 @@ class MyApp extends StatelessWidget {
 }
 
 class Car extends StatefulWidget {
-  final String title;
+  String title;
 
-  const Car({super.key, required this.title});
+  Car({super.key, required this.title});
 
   @override
   State<Car> createState() => _CarState();
@@ -151,14 +156,21 @@ class Car extends StatefulWidget {
 class _CarState extends State<Car> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.red,
-      height: 100,
-      width: 100,
-      child: Center(
-        child: Text(
-          widget.title,
-          style: const TextStyle(color: Colors.white),
+    return TextButton(
+      onPressed: () {
+        setState(() {
+          widget.title = widget.title == 'World' ? 'Hello' : 'World';
+        });
+      },
+      child: Container(
+        color: Colors.red,
+        height: 100,
+        width: 100,
+        child: Center(
+          child: Text(
+            widget.title,
+            style: const TextStyle(color: Colors.white),
+          ),
         ),
       ),
     );
@@ -167,15 +179,6 @@ class _CarState extends State<Car> {
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
 
   final String title;
 
@@ -188,52 +191,21 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _incrementCounter() {
     setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
       _counter++;
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
       body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
         child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
+            const Text('You have pushed the button this many times:'),
             Text(
               '$_counter',
               style: Theme.of(context).textTheme.headlineMedium,
@@ -245,7 +217,7 @@ class _MyHomePageState extends State<MyHomePage> {
         onPressed: _incrementCounter,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
     );
   }
 }
