@@ -32,11 +32,15 @@ class HomePage extends StatelessWidget {
             final user = FirebaseAuth.instance.currentUser;
 
             if (user != null) {
-              return const VerifyEmailView();
+              if (user.emailVerified) {
+                print('Email is verified');
+              } else {
+                return const VerifyEmailView();
+              }
             } else {
-
+              return const LoginView();
             }
-            return const LoginView();
+            return const Text('Done');
           default:
             return const CircularProgressIndicator();
         }
