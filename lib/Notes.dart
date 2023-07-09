@@ -1,13 +1,22 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:test_app/Notes/views/LoginView.dart';
+import 'package:test_app/Notes/views/RegisterView.dart';
+import 'package:test_app/Notes/views/VerifyEmailView.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(const MaterialApp(
-    title: 'NotesApp',
-    home: HomePage(),
-  ));
+  runApp(
+    MaterialApp(
+      title: 'NotesApp',
+      home: const HomePage(),
+      routes: {
+        '/login/': (context) => const LoginView(),
+        '/register/': (context) => const RegisterView(),
+      },
+    ),
+  );
 }
 
 class HomePage extends StatelessWidget {
@@ -15,27 +24,23 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-          title: const Text('Login'),
-        ),
-        body: FutureBuilder(
-          future: Firebase.initializeApp(),
-          builder: (context, snapshot) {
-            switch (snapshot.connectionState) {
-              case ConnectionState.done:
-                final user = FirebaseAuth.instance.currentUser;
+    return FutureBuilder(
+      future: Firebase.initializeApp(),
+      builder: (context, snapshot) {
+        switch (snapshot.connectionState) {
+          case ConnectionState.done:
+            final user = FirebaseAuth.instance.currentUser;
 
-                if (user?.emailVerified ?? false) {
-                  print('You are a verified user');
-                } else {
-                  print('Please verify your email');
-                }
-                return const Text('Done');
-              default:
-                return const Text('Loading...');
+            if (user != null) {
+              return const VerifyEmailView();
+            } else {
+
             }
-          },
-        ));
+            return const LoginView();
+          default:
+            return const CircularProgressIndicator();
+        }
+      },
+    );
   }
 }
