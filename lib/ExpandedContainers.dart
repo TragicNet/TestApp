@@ -5,23 +5,16 @@ class ExpandedContainers extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       title: "Test",
       home: Scaffold(
         body: Column(
           children: [
             Expanded(
               flex: 8,
-              child: Container(
+              child: TextBox(
                 color: Colors.red,
-                alignment: Alignment.center,
-                child: const Text(
-                  '8',
-                  style: TextStyle(
-                    fontSize: 30,
-                    color: Colors.white,
-                  ),
-                ),
+                value: '8',
               ),
             ),
             Expanded(
@@ -30,16 +23,9 @@ class ExpandedContainers extends StatelessWidget {
                 children: [
                   Expanded(
                     flex: 5,
-                    child: Container(
+                    child: TextBox(
                       color: Colors.blueAccent,
-                      alignment: Alignment.center,
-                      child: const Text(
-                        '5',
-                        style: TextStyle(
-                          fontSize: 30,
-                          color: Colors.white,
-                        ),
-                      ),
+                      value: '5',
                     ),
                   ),
                   Expanded(
@@ -55,29 +41,15 @@ class ExpandedContainers extends StatelessWidget {
                                 child: Column(
                                   children: [
                                     Expanded(
-                                      child: Container(
+                                      child: TextBox(
                                         color: Colors.green,
-                                        alignment: Alignment.center,
-                                        child: const Text(
-                                          '1',
-                                          style: TextStyle(
-                                            fontSize: 30,
-                                            color: Colors.white,
-                                          ),
-                                        ),
+                                        value: '1',
                                       ),
                                     ),
                                     Expanded(
-                                      child: Container(
+                                      child: TextBox(
                                         color: Colors.blue,
-                                        alignment: Alignment.center,
-                                        child: const Text(
-                                          '1',
-                                          style: TextStyle(
-                                            fontSize: 30,
-                                            color: Colors.white,
-                                          ),
-                                        ),
+                                        value: '1',
                                       ),
                                     ),
                                   ],
@@ -85,16 +57,9 @@ class ExpandedContainers extends StatelessWidget {
                               ),
                               Expanded(
                                 flex: 2,
-                                child: Container(
+                                child: TextBox(
                                   color: Colors.brown,
-                                  alignment: Alignment.center,
-                                  child: const Text(
-                                    '2',
-                                    style: TextStyle(
-                                      fontSize: 30,
-                                      color: Colors.white,
-                                    ),
-                                  ),
+                                  value: '2',
                                 ),
                               ),
                             ],
@@ -102,16 +67,9 @@ class ExpandedContainers extends StatelessWidget {
                         ),
                         Expanded(
                           flex: 3,
-                          child: Container(
+                          child: TextBox(
                             color: Colors.purple,
-                            alignment: Alignment.center,
-                            child: const Text(
-                              '3',
-                              style: TextStyle(
-                                fontSize: 30,
-                                color: Colors.white,
-                              ),
-                            ),
+                            value: '3',
                           ),
                         ),
                       ],
@@ -121,6 +79,33 @@ class ExpandedContainers extends StatelessWidget {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class TextBox extends StatefulWidget {
+  final String value;
+  final Color color;
+
+  const TextBox({super.key, required this.value, required this.color});
+
+  @override
+  State<TextBox> createState() => _TextBoxState();
+}
+
+class _TextBoxState extends State<TextBox> {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: widget.color,
+      alignment: Alignment.center,
+      child: Text(
+        widget.value,
+        style: const TextStyle(
+          fontSize: 30,
+          color: Colors.white,
         ),
       ),
     );
